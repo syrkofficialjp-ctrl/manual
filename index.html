@@ -1,340 +1,442 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SYRK 信販マニュアル</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, "Hiragino Sans", sans-serif; background: #0a0a0a; color: #e8d9a8; padding: 12px; line-height: 1.6; }
-header { text-align: center; padding: 16px 0; border-bottom: 1px solid #3a3020; margin-bottom: 16px; }
-h1 { color: #d4af37; font-size: 20px; letter-spacing: 2px; }
-.subtitle { color: #8a7a5a; font-size: 11px; margin-top: 4px; }
-.tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; }
-.tab { flex: 1; min-width: calc(33.33% - 4px); padding: 10px 4px; background: #1a1a1a; color: #8a7a5a; border: 1px solid #3a3020; border-radius: 6px; text-align: center; font-size: 12px; cursor: pointer; }
-.tab.active { background: #d4af37; color: #0a0a0a; border-color: #d4af37; font-weight: bold; }
-.content { display: none; }
-.content.active { display: block; }
-.card { background: #1a1a1a; border: 1px solid #3a3020; border-radius: 8px; padding: 14px; margin-bottom: 12px; }
-.card h2 { color: #d4af37; font-size: 15px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #3a3020; }
-.card h3 { color: #c9a961; font-size: 13px; margin: 10px 0 6px; }
-.row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #2a2418; font-size: 13px; }
-.row:last-child { border-bottom: none; }
-.label { color: #8a7a5a; }
-.value { color: #e8d9a8; text-align: right; font-weight: 500; }
-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; }
-th, td { padding: 6px 4px; border: 1px solid #3a3020; text-align: center; }
-th { background: #2a2418; color: #d4af37; font-size: 10px; }
-td { color: #e8d9a8; }
-.month-tabs { display: flex; gap: 4px; margin-bottom: 12px; overflow-x: auto; }
-.month-tab { padding: 6px 12px; background: #1a1a1a; color: #8a7a5a; border: 1px solid #3a3020; border-radius: 4px; font-size: 12px; white-space: nowrap; cursor: pointer; }
-.month-tab.active { background: #d4af37; color: #0a0a0a; font-weight: bold; }
-.month-content { display: none; }
-.month-content.active { display: block; }
-.calendar { width: 100%; border-collapse: collapse; font-size: 10px; }
-.calendar th { background: #2a2418; color: #d4af37; padding: 6px 2px; border: 1px solid #3a3020; }
-.calendar td { padding: 4px 2px; border: 1px solid #3a3020; height: 55px; vertical-align: top; color: #e8d9a8; }
-.calendar .date { font-weight: bold; color: #c9a961; }
-.calendar .sat { color: #7ab8d4; }
-.calendar .sun { color: #d47a7a; }
-.calendar .event { font-size: 8px; color: #d4af37; display: block; margin-top: 2px; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; font-size: 10px; }
-.legend-item { padding: 3px 8px; background: #2a2418; border-radius: 4px; border: 1px solid #3a3020; }
-.highlight { color: #d4af37; font-weight: bold; }
-.warn { color: #d47a7a; font-size: 11px; }
-.note { font-size: 11px; color: #8a7a5a; margin-top: 6px; font-style: italic; }
-footer { text-align: center; padding: 20px 0 10px; color: #4a4030; font-size: 10px; margin-top: 20px; border-top: 1px solid #2a2418; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f5f5; color: #222; padding: 10px; font-size: 13px; }
+h1 { text-align: center; font-size: 18px; padding: 12px; background: #fff; border-radius: 6px; margin-bottom: 10px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+.tab { flex: 1; min-width: 90px; padding: 10px 6px; background: #ddd; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+.tab.active { background: #333; color: #fff; }
+.content { background: #fff; padding: 12px; border-radius: 6px; }
+.section { display: none; }
+.section.active { display: block; }
+h2 { font-size: 15px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #333; }
+h3 { font-size: 13px; margin: 12px 0 6px; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11px; }
+th, td { border: 1px solid #ccc; padding: 5px 4px; text-align: left; vertical-align: top; }
+th { background: #eee; font-weight: bold; }
+.card { border-left: 5px solid #333; background: #fafafa; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+.card.ag { border-color: #d4a017; }
+.card.lcq { border-color: #e53935; }
+.card.lc { border-color: #b71c1c; }
+.card.sb { border-color: #757575; }
+.card.ex { border-color: #43a047; }
+.card.ry { border-color: #1e88e5; }
+.card h3 { color: #333; margin-top: 0; font-size: 14px; }
+.card.ag h3 { color: #d4a017; }
+.card.lcq h3 { color: #e53935; }
+.card.lc h3 { color: #b71c1c; }
+.card.sb h3 { color: #757575; }
+.card.ex h3 { color: #43a047; }
+.card.ry h3 { color: #1e88e5; }
+.calendar { table-layout: fixed; }
+.calendar th { text-align: center; padding: 4px; background: #eee; font-size: 11px; }
+.calendar td { height: 60px; padding: 3px; font-size: 10px; }
+.calendar .date { font-weight: bold; font-size: 11px; }
+.calendar .event { display: block; margin-top: 2px; font-size: 9px; line-height: 1.2; }
+.ev-ag { color: #d4a017; }
+.ev-lc { color: #e53935; }
+.ev-sb { color: #757575; }
+.ev-ex { color: #43a047; }
+.ev-ry { color: #1e88e5; }
+.sun { color: #e53935; }
+.sat { color: #1e88e5; }
+.note { font-size: 11px; color: #666; margin-top: 8px; padding: 8px; background: #fffde7; border-left: 3px solid #fbc02d; }
+.compare th { background: #333; color: #fff; text-align: center; }
+.compare td { text-align: center; }
+.rank1 { background: #fff9c4; font-weight: bold; }
 </style>
 </head>
 <body>
 
-<header>
 <h1>SYRK 信販マニュアル</h1>
-<div class="subtitle">CREDIT COMPANY REFERENCE</div>
-</header>
 
 <div class="tabs">
-<div class="tab active" onclick="showTab('cal')">カレンダー</div>
-<div class="tab" onclick="showTab('info')">基本情報</div>
-<div class="tab" onclick="showTab('calc')">受領額</div>
-<div class="tab" onclick="showTab('fee')">分割手数料</div>
-<div class="tab" onclick="showTab('skip')">スキップ</div>
-<div class="tab" onclick="showTab('contact')">連絡先</div>
+<button class="tab active" onclick="show(0)">📅カレンダー</button>
+<button class="tab" onclick="show(1)">📊早見表</button>
+<button class="tab" onclick="show(2)">📋基本情報</button>
+<button class="tab" onclick="show(3)">💰受領額</button>
+<button class="tab" onclick="show(4)">🔄スキップ</button>
+<button class="tab" onclick="show(5)">📞連絡先</button>
 </div>
 
-<div id="cal" class="content active">
-<div class="card">
-<h2>締日・入金カレンダー</h2>
-<div class="month-tabs">
-<div class="month-tab active" onclick="showMonth('m7')">7月</div>
-<div class="month-tab" onclick="showMonth('m8')">8月</div>
-</div>
-<div class="legend">
-<span class="legend-item">AG=AGペイ</span>
-<span class="legend-item">LCQ=クイック</span>
-<span class="legend-item">LC=ライフカード</span>
-<span class="legend-item">SB=SBPS</span>
-<span class="legend-item">EX=エクセル</span>
-<span class="legend-item">RY=ライフティ</span>
-</div>
+<div class="content">
 
-<div id="m7" class="month-content active">
-<h3>2026年 7月</h3>
+<!-- タブ1: カレンダー -->
+<div class="section active">
+<h2>📅 2026年7月カレンダー</h2>
 <table class="calendar">
 <tr><th class="sun">日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th class="sat">土</th></tr>
-<tr><td></td><td></td><td></td><td class="date">1</td><td class="date">2</td><td class="date">3</td><td class="date sat">4</td></tr>
-<tr><td class="date sun">5</td><td class="date">6</td><td class="date">7</td><td class="date">8</td><td class="date">9<span class="event">EX締</span></td><td class="date">10<span class="event">AG締/EX入</span></td><td class="date sat">11</td></tr>
-<tr><td class="date sun">12</td><td class="date">13</td><td class="date">14</td><td class="date">15<span class="event">LC/LCQ/SB締/SB入</span></td><td class="date">16</td><td class="date">17</td><td class="date sat">18</td></tr>
-<tr><td class="date sun">19</td><td class="date sun">20<span class="event">祝/AG締/RY締</span></td><td class="date">21<span class="event">AG入</span></td><td class="date">22</td><td class="date">23</td><td class="date">24</td><td class="date sat">25</td></tr>
-<tr><td class="date sun">26</td><td class="date">27<span class="event">EX客支払</span></td><td class="date">28</td><td class="date">29</td><td class="date">30<span class="event">LC/LCQ入</span></td><td class="date">31<span class="event">AG/RY入</span></td><td></td></tr>
+<tr>
+<td></td><td></td><td></td>
+<td><span class="date">1</span></td>
+<td><span class="date">2</span></td>
+<td><span class="date">3</span></td>
+<td class="sat"><span class="date">4</span></td>
+</tr>
+<tr>
+<td class="sun"><span class="date">5</span></td>
+<td><span class="date">6</span></td>
+<td><span class="date">7</span></td>
+<td><span class="date">8</span></td>
+<td><span class="date">9</span><span class="event ev-ex">EX入金</span></td>
+<td><span class="date">10</span><span class="event ev-ag">AG締</span></td>
+<td class="sat"><span class="date">11</span></td>
+</tr>
+<tr>
+<td class="sun"><span class="date">12</span></td>
+<td><span class="date">13</span></td>
+<td><span class="date">14</span></td>
+<td><span class="date">15</span><span class="event ev-lc">LC/SB締</span></td>
+<td><span class="date">16</span></td>
+<td><span class="date">17</span></td>
+<td class="sat"><span class="date">18</span></td>
+</tr>
+<tr>
+<td class="sun"><span class="date">19</span></td>
+<td class="sun"><span class="date">20</span>🎌<span class="event ev-ag">AG締</span><span class="event ev-ry">RY締→前営</span></td>
+<td><span class="date">21</span><span class="event ev-ag">AG入金</span></td>
+<td><span class="date">22</span></td>
+<td><span class="date">23</span></td>
+<td><span class="date">24</span></td>
+<td class="sat"><span class="date">25</span></td>
+</tr>
+<tr>
+<td class="sun"><span class="date">26</span></td>
+<td><span class="date">27</span><span class="event ev-ex">EX客支払</span></td>
+<td><span class="date">28</span></td>
+<td><span class="date">29</span></td>
+<td><span class="date">30</span><span class="event ev-lc">LC入金</span></td>
+<td><span class="date">31</span><span class="event ev-ag">AG締</span><span class="event ev-ry">RY入金</span></td>
+<td></td>
+</tr>
 </table>
-<div class="note">※海の日7/20の締切はそのまま、入金は翌営業日</div>
-</div>
 
-<div id="m8" class="month-content">
-<h3>2026年 8月</h3>
-<p style="color:#8a7a5a; text-align:center; padding:30px 10px;">近日追加予定</p>
-</div>
-</div>
-</div>
-
-<div id="info" class="content">
-<div class="card">
-<h2>AGペイメント</h2>
-<div class="row"><span class="label">加盟店手数料</span><span class="value">1.00%</span></div>
-<div class="row"><span class="label">最大分割</span><span class="value">60回</span></div>
-<div class="row"><span class="label">与信枠</span><span class="value">月累計40万</span></div>
-<div class="row"><span class="label">締日</span><span class="value">10/20/末日</span></div>
-<div class="row"><span class="label">入金日</span><span class="value">締切後10日</span></div>
-<div class="row"><span class="label">入金口座</span><span class="value">福岡銀行</span></div>
-<div class="row"><span class="label">キャンセル料</span><span class="value">3,000円/件</span></div>
-</div>
-
-<div class="card">
-<h2>ライフカードクイック</h2>
-<div class="row"><span class="label">加盟店手数料</span><span class="value">1.50%</span></div>
-<div class="row"><span class="label">最大分割</span><span class="value">60回</span></div>
-<div class="row"><span class="label">締日</span><span class="value">15/末日</span></div>
-<div class="row"><span class="label">入金日</span><span class="value">締切後15日</span></div>
-<div class="row"><span class="label">入金口座</span><span class="value">福岡銀行</span></div>
-<div class="row"><span class="label">発券費</span><span class="value">5,500円(〜26/9)/2,200円(26/10〜)</span></div>
-</div>
-
-<div class="card">
-<h2>ライフカード</h2>
-<div class="row"><span class="label">与信枠</span><span class="value">150万</span></div>
-<div class="row"><span class="label">QR/クイック決済</span><span class="value">1.50%（60回まで）</span></div>
-<div class="row"><span class="label">端末(他LC所持者)</span><span class="value">1.50%（24回まで）</span></div>
-<div class="row"><span class="label">他社1回</span><span class="value">2.38%</span></div>
-<div class="row"><span class="label">他社2-24回</span><span class="value">2.88%</span></div>
-<div class="row"><span class="label">締日</span><span class="value">15/末日</span></div>
-<div class="row"><span class="label">入金日</span><span class="value">締切後15日</span></div>
-<div class="row"><span class="label">入金口座</span><span class="value">福岡銀行</span></div>
-<div class="note">端末決済は全カード24回まで。30回以上0%はQR・クイック発券のみ</div>
-</div>
-
-<div class="card">
-<h2>SBPS</h2>
-<div class="row"><span class="label">クレカ手数料</span><span class="value">2.78%（中小）</span></div>
-<div class="row"><span class="label">コード決済</span><span class="value">3.24%（PayPay等）</span></div>
-<div class="row"><span class="label">最大分割</span><span class="value">24回</span></div>
-<div class="row"><span class="label">締日</span><span class="value">15/末日</span></div>
-<div class="row"><span class="label">入金日</span><span class="value">翌月15日</span></div>
-<div class="row"><span class="label">入金口座</span><span class="value">福岡銀行</span></div>
-<div class="note">JCB分割は夏8/15・冬1/15</div>
-</div>
-
-<div class="card">
-<h2>エクセル</h2>
-<div class="row"><span class="label">加盟店手数料</span><span class="value">3.00% + 振込手数料</span></div>
-<div class="row"><span class="label">最大分割</span><span class="value">60回（特定継続36回）</span></div>
-<div class="row"><span class="label">対象金額</span><span class="value">5〜100万円</span></div>
-<div class="row"><span class="label">対象年齢</span><span class="value">18〜78歳</span></div>
-<div class="row"><span class="label">締日</span><span class="value">14時登録</span></div>
-<div class="row"><span class="label">入金日</span><span class="value">翌営業日</span></div>
-<div class="row"><span class="label">入金口座</span><span class="value">遠賀信用金庫</span></div>
-<div class="row"><span class="label">客支払日</span><span class="value">毎月27日</span></div>
-<div class="row"><span class="label">振込手数料</span><span class="value">550円（福岡銀行博多駅前=0円）</span></div>
-<div class="note">OK:社員/パート/主婦(配偶者同意)/学生(就業)/水商売　NG:風俗/外国籍/無職</div>
-</div>
-
-<div class="card">
-<h2>ライフティ</h2>
-<div class="row"><span class="label">加盟店手数料</span><span class="value">5.00%</span></div>
-<div class="row"><span class="label">営業保証金</span><span class="value">30%</span></div>
-<div class="row"><span class="label">最大分割</span><span class="value">36回</span></div>
-<div class="row"><span class="label">対象金額</span><span class="value">3〜100万円</span></div>
-<div class="row"><span class="label">締日</span><span class="value">20日（そのまま）</span></div>
-<div class="row"><span class="label">立替日</span><span class="value">月末（休日は前営業日）</span></div>
-<div class="row"><span class="label">入金口座</span><span class="value">遠賀信用金庫</span></div>
-<div class="row"><span class="label">保証金返還</span><span class="value">役務完了後の翌月末</span></div>
-<div class="row"><span class="label">解約手数料</span><span class="value">立替金×0.82%×経過月数</span></div>
-<div class="note">特定継続的役務。解約時1ヶ月未満は切上・加盟店負担</div>
+<div class="note">
+🎌 7/20(月) 海の日<br>
+※AG立替日：10/20締は翌営業日、月末締は前営業日<br>
+※RY(ライフティ)：締日・立替日が休日は前営業日<br>
+※EX(エクセル)：休日は翌営業日
 </div>
 </div>
 
-<div id="calc" class="content">
-<div class="card">
-<h2>受領額ランキング（40万円契約）</h2>
+<!-- タブ2: 早見表 -->
+<div class="section">
+<h2>📊 40万円契約 早見表</h2>
+<table class="compare">
+<tr>
+<th>項目</th>
+<th style="background:#d4a017">AG</th>
+<th style="background:#e53935">LCQ</th>
+<th style="background:#b71c1c">LC</th>
+<th style="background:#757575">SB</th>
+<th style="background:#43a047">EX</th>
+<th style="background:#1e88e5">RY</th>
+</tr>
+<tr><td>手数料</td><td>1.00%</td><td>1.50%</td><td>1.50%</td><td>2.78%</td><td>3.00%</td><td>5.00%</td></tr>
+<tr><td>最大分割</td><td>60回</td><td>60回</td><td>60/24回</td><td>24回</td><td>60回</td><td>36回</td></tr>
+<tr><td>アドオン</td><td>0.70%</td><td>0.68%</td><td>-</td><td>-</td><td>0.6-0.8%</td><td>0.82%</td></tr>
+<tr class="rank1"><td>受領額</td><td>396,000</td><td>394,000</td><td>394,000</td><td>388,880</td><td>387,450</td><td>380,000</td></tr>
+<tr><td>スキップ</td><td>可</td><td>不可</td><td>不可</td><td>不可</td><td>可</td><td>可</td></tr>
+<tr><td>与信枠</td><td>40万</td><td>-</td><td>150万</td><td>なし</td><td>-</td><td>-</td></tr>
+</table>
+
+<h3>🏆 受領額ランキング（40万契約）</h3>
 <table>
-<tr><th>順位</th><th>会社</th><th>受領額</th><th>率</th></tr>
-<tr><td>1</td><td>AGペイ</td><td>396,000円</td><td>99.00%</td></tr>
-<tr><td>2</td><td>LC/LCQ</td><td>394,000円</td><td>98.50%</td></tr>
-<tr><td>3</td><td>SBPS</td><td>388,880円</td><td>97.22%</td></tr>
-<tr><td>4</td><td>エクセル</td><td>387,450円</td><td>96.86%</td></tr>
-<tr><td>5</td><td>ライフティ</td><td>380,000円</td><td>95.00%</td></tr>
+<tr><th>順位</th><th>会社</th><th>受領額</th><th>手数料</th></tr>
+<tr class="rank1"><td>🥇1位</td><td>AGペイ</td><td>396,000円</td><td>1.00%</td></tr>
+<tr><td>🥈2位</td><td>LCクイック/LC</td><td>394,000円</td><td>1.50%</td></tr>
+<tr><td>🥉3位</td><td>SBPS</td><td>388,880円</td><td>2.78%</td></tr>
+<tr><td>4位</td><td>エクセル</td><td>387,450円</td><td>3.00%+振込</td></tr>
+<tr><td>5位</td><td>ライフティ</td><td>380,000円</td><td>5.00%(役務完了後)</td></tr>
 </table>
-<div class="note">※ライフティは初回26万・役務完了後に保証金12万返還</div>
+
+<div class="note">
+💡 <b>受領額の考え方</b><br>
+契約額 × (100% − 加盟店手数料) = 受領額<br>
+例：400,000 × 99% = 396,000（AG）
+</div>
+</div>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SYRK 信販マニュアル</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f5f5; color: #222; padding: 10px; font-size: 13px; }
+h1 { text-align: center; font-size: 18px; padding: 12px; background: #fff; border-radius: 6px; margin-bottom: 10px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+.tab { flex: 1; min-width: 90px; padding: 10px 6px; background: #ddd; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+.tab.active { background: #333; color: #fff; }
+.content { background: #fff; padding: 12px; border-radius: 6px; }
+.section { display: none; }
+.section.active { display: block; }
+h2 { font-size: 15px; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid #333; }
+h3 { font-size: 13px; margin: 12px 0 6px; }
+table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 11px; }
+th, td { border: 1px solid #ccc; padding: 5px 4px; text-align: left; vertical-align: top; }
+th { background: #eee; font-weight: bold; }
+.card { border-left: 5px solid #333; background: #fafafa; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+.card.ag { border-color: #d4a017; }
+.card.lcq { border-color: #e53935; }
+.card.lc { border-color: #b71c1c; }
+.card.sb { border-color: #757575; }
+.card.ex { border-color: #43a047; }
+.card.ry { border-color: #1e88e5; }
+.card h3 { margin-top: 0; font-size: 14px; }
+.card.ag h3 { color: #d4a017; }
+.card.lcq h3 { color: #e53935; }
+.card.lc h3 { color: #b71c1c; }
+.card.sb h3 { color: #757575; }
+.card.ex h3 { color: #43a047; }
+.card.ry h3 { color: #1e88e5; }
+.calendar { table-layout: fixed; }
+.calendar th { text-align: center; padding: 4px; background: #eee; font-size: 11px; }
+.calendar td { height: 60px; padding: 3px; font-size: 10px; }
+.calendar .date { font-weight: bold; font-size: 11px; }
+.calendar .event { display: block; margin-top: 2px; font-size: 9px; line-height: 1.2; }
+.ev-ag { color: #d4a017; }
+.ev-lc { color: #e53935; }
+.ev-sb { color: #757575; }
+.ev-ex { color: #43a047; }
+.ev-ry { color: #1e88e5; }
+.sun { color: #e53935; }
+.sat { color: #1e88e5; }
+.note { font-size: 11px; color: #666; margin-top: 8px; padding: 8px; background: #fffde7; border-left: 3px solid #fbc02d; }
+.compare th { background: #333; color: #fff; text-align: center; }
+.compare td { text-align: center; }
+.rank1 { background: #fff9c4; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h1>SYRK 信販マニュアル</h1>
+
+<div class="tabs">
+<button class="tab active" onclick="show(0)">📅カレンダー</button>
+<button class="tab" onclick="show(1)">📊早見表</button>
+<button class="tab" onclick="show(2)">📋基本情報</button>
+<button class="tab" onclick="show(3)">💰受領額</button>
+<button class="tab" onclick="show(4)">🔄スキップ</button>
+<button class="tab" onclick="show(5)">📞連絡先</button>
 </div>
 
-<div class="card">
-<h2>計算式</h2>
-<div class="row"><span class="label">AGペイ</span><span class="value">売上×99%</span></div>
-<div class="row"><span class="label">LC/LCQ</span><span class="value">売上×98.5%</span></div>
-<div class="row"><span class="label">SBPS</span><span class="value">売上×97.22%</span></div>
-<div class="row"><span class="label">エクセル</span><span class="value">売上×97%−550円</span></div>
-<div class="row"><span class="label">ライフティ</span><span class="value">売上×65%（初回）/×95%（合計）</span></div>
+<div class="content">
+
+<div class="section active">
+<h2>📅 2026年7月カレンダー</h2>
+<table class="calendar">
+<tr><th class="sun">日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th class="sat">土</th></tr>
+<tr>
+<td></td><td></td><td></td>
+<td><span class="date">1</span></td>
+<td><span class="date">2</span></td>
+<td><span class="date">3</span></td>
+<td class="sat"><span class="date">4</span></td>
+</tr>
+<tr>
+<td class="sun"><span class="date">5</span></td>
+<td><span class="date">6</span></td>
+<td><span class="date">7</span></td>
+<td><span class="date">8</span></td>
+<td><span class="date">9</span><span class="event ev-ex">EX入金</span></td>
+<td><span class="date">10</span><span class="event ev-ag">AG締</span></td>
+<td class="sat"><span class="date">11</span></td>
+</tr>
+<tr>
+<td class="sun"><span class="date">12</span></td>
+<td><span class="date">13</span></td>
+<td><span class="date">14</span></td>
+<td><span class="date">15</span><span class="event ev-lc">LC/SB締</span></td>
+<td><span class="date">16</span></td>
+<td><span class="date">17</span></td>
+<td class="sat"><span class="date">18</span></td>
+</tr>
+<tr>
+<td class="sun"><span class="date">19</span></td>
+<td class="sun"><span class="date">20</span>🎌<span class="event ev-ag">AG締</span><span class="event ev-ry">RY締→前営</span></td>
+<td><span class="date">21</span><span class="event ev-ag">AG入金</span></td>
+<td><span class="date">22</span></td>
+<td><span class="date">23</span></td>
+<td><span class="date">24</span></td>
+<td class="sat"><span class="date">25</span></td>
+</tr>
+<tr>
+<td class="sun"><span class="date">26</span></td>
+<td><span class="date">27</span><span class="event ev-ex">EX客支払</span></td>
+<td><span class="date">28</span></td>
+<td><span class="date">29</span></td>
+<td><span class="date">30</span><span class="event ev-lc">LC入金</span></td>
+<td><span class="date">31</span><span class="event ev-ag">AG締</span><span class="event ev-ry">RY入金</span></td>
+<td></td>
+</tr>
+</table>
+<div class="note">
+🎌 7/20(月) 海の日<br>
+※AG立替日：10/20締は翌営業日、月末締は前営業日<br>
+※RY(ライフティ)：締日・立替日が休日は前営業日<br>
+※EX(エクセル)：休日は翌営業日
+</div>
 </div>
 
-<div class="card">
-<h2>スキップ時の受領額（40万・6ヶ月据置）</h2>
-<div class="row"><span class="label">AGペイ</span><span class="value">379,200円（-16,800）</span></div>
-<div class="row"><span class="label">エクセル(10回0.6%)</span><span class="value">373,050円（-14,400）</span></div>
-<div class="row"><span class="label">ライフティ一括6ヶ月</span><span class="value">353,600円（-26,400）</span></div>
-<div class="row"><span class="label">ライフティ二括5ヶ月</span><span class="value">348,800円（-31,200）</span></div>
-</div>
-</div>
+<div class="section">
+<h2>📊 40万円契約 早見表</h2>
+<table class="compare">
+<tr>
+<th>項目</th>
+<th style="background:#d4a017">AG</th>
+<th style="background:#e53935">LCQ</th>
+<th style="background:#b71c1c">LC</th>
+<th style="background:#757575">SB</th>
+<th style="background:#43a047">EX</th>
+<th style="background:#1e88e5">RY</th>
+</tr>
+<tr><td>手数料</td><td>1.00%</td><td>1.50%</td><td>1.50%</td><td>2.78%</td><td>3.00%</td><td>5.00%</td></tr>
+<tr><td>最大分割</td><td>60回</td><td>60回</td><td>60/24</td><td>24回</td><td>60回</td><td>36回</td></tr>
+<tr><td>アドオン</td><td>0.70%</td><td>0.68%</td><td>-</td><td>-</td><td>0.6-0.8%</td><td>0.82%</td></tr>
+<tr class="rank1"><td>受領額</td><td>396,000</td><td>394,000</td><td>394,000</td><td>388,880</td><td>387,450</td><td>380,000</td></tr>
+<tr><td>スキップ</td><td>可</td><td>不可</td><td>不可</td><td>不可</td><td>可</td><td>可</td></tr>
+<tr><td>与信枠</td><td>40万</td><td>-</td><td>150万</td><td>なし</td><td>-</td><td>-</td></tr>
+</table>
 
-<div id="fee" class="content">
-<div class="card">
-<h2>客側アドオン率</h2>
-<div class="row"><span class="label">AGペイ</span><span class="value">0.70%/月</span></div>
-<div class="row"><span class="label">LCQ</span><span class="value">0.68%/月</span></div>
-<div class="row"><span class="label">ライフカード</span><span class="value">カード会社基準</span></div>
-<div class="row"><span class="label">SBPS</span><span class="value">カード会社基準</span></div>
-<div class="row"><span class="label">エクセル</span><span class="value">0.6〜0.8%/月</span></div>
-<div class="row"><span class="label">ライフティ</span><span class="value">0.82%/月</span></div>
-</div>
-
-<div class="card">
-<h2>ライフティ 分割手数料</h2>
+<h3>🏆 受領額ランキング（40万契約）</h3>
 <table>
-<tr><th>回数</th><th>客手数料</th><th>実質年率</th></tr>
-<tr><td>3</td><td>2.46%</td><td>14.70%</td></tr>
-<tr><td>6</td><td>4.92%</td><td>16.68%</td></tr>
-<tr><td>10</td><td>8.20%</td><td>17.17%</td></tr>
-<tr><td>12</td><td>9.84%</td><td>17.69%</td></tr>
-<tr><td>15</td><td>12.30%</td><td>17.84%</td></tr>
-<tr><td>18</td><td>14.76%</td><td>17.89%</td></tr>
-<tr><td>24</td><td>19.68%</td><td>17.88%</td></tr>
-<tr><td>30</td><td>24.60%</td><td>17.78%</td></tr>
-<tr><td>36</td><td>29.52%</td><td>17.52%</td></tr>
+<tr><th>順位</th><th>会社</th><th>受領額</th><th>手数料</th></tr>
+<tr class="rank1"><td>🥇1位</td><td>AGペイ</td><td>396,000円</td><td>1.00%</td></tr>
+<tr><td>🥈2位</td><td>LCクイック/LC</td><td>394,000円</td><td>1.50%</td></tr>
+<tr><td>🥉3位</td><td>SBPS</td><td>388,880円</td><td>2.78%</td></tr>
+<tr><td>4位</td><td>エクセル</td><td>387,450円</td><td>3.00%+振込</td></tr>
+<tr><td>5位</td><td>ライフティ</td><td>380,000円</td><td>5.00%(役務完了後)</td></tr>
 </table>
-<div class="note">加盟店手数料は全回数5.00%固定</div>
-</div>
 
-<div class="card">
-<h2>AGペイ 顧客手数料</h2>
-<div class="note">回数×0.70%（例：3回=2.10%、10回=7.00%、30回=21.00%、60回=42.00%）</div>
-</div>
-
-<div class="card">
-<h2>ライフカード 特別プログラム</h2>
-<div class="row"><span class="label">1回払い</span><span class="value">客0%/店2.38%</span></div>
-<div class="row"><span class="label">2〜24回</span><span class="value">客カード基準/店2.88%</span></div>
-<div class="row"><span class="label">30〜60回(Master/VISA)</span><span class="value">客0%/店1.50%</span></div>
+<div class="note">
+💡 <b>受領額の考え方</b><br>
+契約額 × (100% − 加盟店手数料) = 受領額<br>
+例：400,000 × 99% = 396,000（AG）
 </div>
 </div>
 
-<div id="skip" class="content">
-<div class="card">
-<h2>スキップ対応表</h2>
+<div class="section">
+<h2>🔄 スキップ・分割手数料</h2>
+
+<h3>スキップ対応表</h3>
 <table>
-<tr><th>会社</th><th>最大</th><th>負担</th></tr>
-<tr><td>AGペイ</td><td>6ヶ月</td><td>店</td></tr>
-<tr><td>LCQ</td><td>非対応</td><td>-</td></tr>
-<tr><td>LC</td><td>非対応</td><td>-</td></tr>
-<tr><td>SBPS</td><td>非対応</td><td>-</td></tr>
-<tr><td>エクセル</td><td>6ヶ月</td><td>店</td></tr>
-<tr><td>ライフティ</td><td>6ヶ月</td><td>店</td></tr>
+<tr><th>会社</th><th>対応</th><th>負担</th><th>計算式</th></tr>
+<tr><td>AGペイ</td><td>◯ 最大6ヶ月</td><td>店負担</td><td>0.70%/月</td></tr>
+<tr><td>LCクイック</td><td>✕</td><td>-</td><td>-</td></tr>
+<tr><td>ライフカード</td><td>✕</td><td>-</td><td>-</td></tr>
+<tr><td>SBPS</td><td>✕</td><td>-</td><td>-</td></tr>
+<tr><td>エクセル</td><td>◯ 最大6ヶ月</td><td>店負担</td><td>分割手数料÷回数×スキップ回数</td></tr>
+<tr><td>ライフティ</td><td>◯ 最大6ヶ月</td><td>店負担</td><td>0.60%/月（ボーナス時）</td></tr>
 </table>
-</div>
 
-<div class="card">
-<h2>スキップ手数料計算</h2>
-<div class="row"><span class="label">AGペイ</span><span class="value">0.70%×据置月数</span></div>
-<div class="row"><span class="label">エクセル</span><span class="value">分割手数料÷回数×スキップ回数</span></div>
-<div class="row"><span class="label">ライフティ(ボーナス)</span><span class="value">+0.60%/月</span></div>
-</div>
-
-<div class="card">
-<h2>ライフティ ボーナス一括（据置別）</h2>
+<h3>スキップ時の受領額例（40万円契約）</h3>
 <table>
-<tr><th>据置</th><th>加盟店手数料</th></tr>
-<tr><td>0ヶ月</td><td>8.00%</td></tr>
-<tr><td>1ヶ月</td><td>8.60%</td></tr>
-<tr><td>2ヶ月</td><td>9.20%</td></tr>
-<tr><td>3ヶ月</td><td>9.80%</td></tr>
-<tr><td>4ヶ月</td><td>10.40%</td></tr>
-<tr><td>5ヶ月</td><td>11.00%</td></tr>
-<tr><td>6ヶ月</td><td>11.60%</td></tr>
+<tr><th>会社</th><th>通常受領額</th><th>6ヶ月スキップ時</th></tr>
+<tr><td>AGペイ</td><td>396,000円</td><td>379,200円（-16,800円）</td></tr>
+<tr><td>エクセル</td><td>387,450円</td><td>373,050円（-14,400円）</td></tr>
+<tr><td>ライフティ</td><td>380,000円</td><td>353,600円（-26,400円）</td></tr>
 </table>
-</div>
 
-<div class="card">
-<h2>ライフティ ボーナス二括（据置別）</h2>
+<h3>ライフティ 分割手数料表（加盟店負担）</h3>
 <table>
-<tr><th>据置</th><th>加盟店手数料</th></tr>
-<tr><td>0ヶ月</td><td>9.80%</td></tr>
-<tr><td>1ヶ月</td><td>10.40%</td></tr>
-<tr><td>2ヶ月</td><td>11.00%</td></tr>
-<tr><td>3ヶ月</td><td>11.60%</td></tr>
-<tr><td>4ヶ月</td><td>12.20%</td></tr>
-<tr><td>5ヶ月</td><td>12.80%</td></tr>
+<tr><th>回数</th><th>客手数料</th><th>実質年率</th><th>加盟店手数料</th></tr>
+<tr><td>3回</td><td>2.46%</td><td>14.70%</td><td>5.00%</td></tr>
+<tr><td>6回</td><td>4.20%</td><td>16.68%</td><td>5.00%</td></tr>
+<tr><td>10回</td><td>8.20%</td><td>17.11%</td><td>5.00%</td></tr>
+<tr><td>12回</td><td>9.84%</td><td>17.69%</td><td>5.00%</td></tr>
+<tr><td>15回</td><td>12.30%</td><td>17.84%</td><td>5.00%</td></tr>
+<tr><td>18回</td><td>14.76%</td><td>17.89%</td><td>5.00%</td></tr>
+<tr><td>20回</td><td>16.40%</td><td>17.90%</td><td>5.00%</td></tr>
+<tr><td>24回</td><td>19.68%</td><td>17.88%</td><td>5.00%</td></tr>
+<tr><td>30回</td><td>24.60%</td><td>17.89%</td><td>5.00%</td></tr>
+<tr><td>36回</td><td>29.52%</td><td>17.85%</td><td>5.00%</td></tr>
+</table>
+
+<h3>ライフティ ボーナス一括手数料</h3>
+<table>
+<tr><th>据置月数</th><th>1ヶ月</th><th>2ヶ月</th><th>3ヶ月</th><th>4ヶ月</th><th>5ヶ月</th><th>6ヶ月</th></tr>
+<tr><td>加盟店手数料</td><td>8.00%</td><td>8.60%</td><td>9.20%</td><td>9.80%</td><td>10.40%</td><td>11.00%</td></tr>
+</table>
+
+<h3>ライフカード 客側手数料（QR/クイック）</h3>
+<table>
+<tr><th>回数</th><th>客手数料</th></tr>
+<tr><td>1回</td><td>0%</td></tr>
+<tr><td>2〜24回</td><td>カード会社基準</td></tr>
+<tr class="rank1"><td>30回以上</td><td><b>0%（特別プログラム）</b></td></tr>
+</table>
+
+<div class="note">
+⭐ <b>ライフカード30回以上0%</b><br>
+QR決済またはクイック発券で30回以上分割 → 客側手数料0円<br>
+※加盟店手数料1.50%は通常通り発生<br>
+※長期分割ほど客に得な仕組み → 提案時の殺し文句
+</div>
+
+</div>
+
+<div class="section">
+<h2>📞 連絡先</h2>
+
+<div class="card ag">
+<h3>🟡 AGペイメント / ライフカード / SBPS</h3>
+<table>
+<tr><th>担当者</th><td>山上様</td></tr>
+<tr><th>所属</th><td>アイフル株式会社</td></tr>
 </table>
 </div>
+
+<div class="card ex">
+<h3>🟢 エクセル</h3>
+<table>
+<tr><th>担当者</th><td>仲野様</td></tr>
+<tr><th>会社名</th><td>アール・インプレス株式会社</td></tr>
+<tr><th>住所</th><td>〒815-0041<br>福岡市南区野間1-1-2<br>サンシャインシティービル2F</td></tr>
+<tr><th>TEL</th><td>092-554-5111</td></tr>
+<tr><th>FAX</th><td>092-554-5112</td></tr>
+<tr><th>Mail</th><td>r-impress.1@lily.ocn.ne.jp</td></tr>
+</table>
 </div>
 
-<div id="contact" class="content">
-<div class="card">
-<h2>担当者</h2>
-<div class="row"><span class="label">AGペイ/LC/LCQ/SBPS</span><span class="value">山上様（アイフル）</span></div>
-<div class="row"><span class="label">エクセル</span><span class="value">仲野様（アール・インプレス）</span></div>
-<div class="row"><span class="label">ライフティ</span><span class="value">森本様</span></div>
+<div class="card ry">
+<h3>🔵 ライフティ</h3>
+<table>
+<tr><th>担当者</th><td>森本様</td></tr>
+<tr><th>会社名</th><td>ライフティ株式会社</td></tr>
+<tr><th>住所</th><td>東京都新宿区西新宿2-3-1<br>新宿モノリス9F</td></tr>
+<tr><th>TEL</th><td>03-6709-6451</td></tr>
+<tr><th>Mail</th><td>Ryfetyeigyostaff4cq<br>@ryfety.co.jp</td></tr>
+</table>
 </div>
 
-<div class="card">
-<h2>必要書類</h2>
-<div class="row"><span class="label">身分証（いずれか1点）</span><span class="value">-</span></div>
-<div class="note">運転免許証・保険証・マイナンバーカード・パスポート<br>※学生証のみは否決</div>
+<div class="note">
+📌 <b>必要書類</b><br>
+① クレジット契約書正本<br>
+② 口座振替依頼書<br>
+③ 身分証（保険証or免許証）<br>
+④ サービス契約書・商品受領書等<br>
+※学生は学生証も必要
 </div>
 
-<div class="card">
-<h2>休日ルール</h2>
-<h3>AGペイ・SBPS</h3>
-<div class="note">締日は暦通り。10日/20日締の入金→翌営業日、月末締の入金→前営業日</div>
-<h3>ライフティ</h3>
-<div class="note">締日は暦通り。立替日（月末）→前営業日</div>
-<h3>エクセル</h3>
-<div class="note">27日引落が土日祝→休み明けが引落日</div>
-</div>
 </div>
 
-<footer>SYRK MANUAL v1.0 / 2026</footer>
+</div>
 
 <script>
-function showTab(id) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0, 0);
-}
-function showMonth(id) {
-  document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.month-content').forEach(c => c.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  document.getElementById(id).classList.add('active');
+function show(n) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', i === n);
+  });
+  document.querySelectorAll('.section').forEach((s, i) => {
+    s.classList.toggle('active', i === n);
+  });
 }
 </script>
 
